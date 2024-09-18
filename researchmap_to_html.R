@@ -1,11 +1,10 @@
 # 必要なライブラリをインストール
-install.packages("openssl")
-install.packages("httr")
+# install.packages("openssl")
+# install.packages("httr")
 
 # ライブラリの読み込み
 library(openssl)
 library(httr)
-
 
 library(jsonlite)
 library(tidyverse)
@@ -35,25 +34,63 @@ convert_name <- function(name) {
 
 
 make_html <- function(json_parsed_list){
-  gyoseki = list(paper = NULL, presentation = NULL)
-  for(i in 1:length(json_parsed_list)){
-    
-    type = json_parsed_list[[i]]$insert$type 
-    
-    if(type ==  "presentations"){
-      gyoseki$presentation <- c(gyoseki$presentation, make_record(json_parsed_list[[i]]))
-    }
-    if(type ==  "published_papers"){
-      gyoseki$paper <- c(gyoseki$paper, make_record(json_parsed_list[[i]]))
-    }
-  }
-  # return(gyoseki)
+  # 
+  # gyoseki_name <- list(paper = "論文",presentation = "学会発表" )
+  # gyoseki = list(paper = NULL, presentation = NULL)
+  gyoseki_name <- list("査読論文", 
+                       "preprint",
+                       "国際学会における発表 (査読あり)",
+                       "招待セッショントーク（Invited Session Talk）",
+                       "国内学会・シンポジウム等における発表"
+                       )
   
-  html <- NULL
-  for(j in 1:length(gyoseki)){
-    html = paste0(html, sprintf("業績%s \n<ol>\n<li>%s</li>\n</ol>\n",j , gyoseki[[j]] %>% paste(collapse = "</li>\n<li>")))
+  split_list <- function(json_parsed){
+    index = 0
+    if(json_parsed$insert$type == "presentations"){
+      lang <- json_parsed$merge$presentation_title %>% names()
+      
+      if(lang == "en"){
+        if(json_parsed$merge$invited){
+          index = 4
+        }else if(lang == "en" & !json_parsed$merge$invited){
+          index = 3
+        }
+      }else if(lang == "ja"){
+          index = 5
+      }
+    }else if(json_parsed$insert$type ==  "published_papers"){
+      if(unlist(json_parsed$merge$publication_name) %in% c("Open Science Framework")){
+        index = 2
+      }else{
+        index = 1 
+      }
+    }
+    return(index)
   }
- html
+  
+  json_index_vec <- json_parsed_list %>% sapply(split_list)
+  
+  gyoseki <- NULL
+  
+  for(j in 1:length(gyoseki_name)){
+    json_pared_list_tmp <- json_parsed_list[json_index_vec == j]
+    if(is.null(json_pared_list_tmp %>% unlist)){
+      
+    }else{
+      gyoseki[[j]] <- json_pared_list_tmp %>% sapply(make_record)
+    }
+  }
+  
+  html_top <- "<h2>業績一覧</h2>\n\n"
+  html_parts <- list()
+  for(j in 1:length(gyoseki)){
+    gyoseki_tmp <- gyoseki[[j]] %>% sapply(function(x) sprintf("<li>\n%s\n</li>\n", x))
+    html_parts[[j]] <- sprintf("<h3>%s</h3>\n<ol>\n%s</ol>",gyoseki_name[[j]],
+                               gyoseki_tmp %>% paste0(collapse="")
+                               )  
+  }
+  c(html_top, html_parts) %>% 
+    paste0(collapse="\n\n") %>% return()
 }
 
 
@@ -68,8 +105,6 @@ make_record <- function(json_parsed){
     dat$lang <- json_parsed$merge$presentation_title %>% names()
     
     # lang = "ja"
-    
-    
     author_vec = unlist(json_parsed$merge$presenters[[dat$lang]])
     if(dat$lang == "ja"){
       dat$author <- paste0(author_vec, collapse = "・")  
@@ -86,9 +121,6 @@ make_record <- function(json_parsed){
         paste(author_vec_red, collapse=" & ")
       }
     }
-    
-    
-    
     
     dat$year  = json_parsed$merge$publication_date
     dat$title = json_parsed$merge$presentation_title[[dat$lang]]
@@ -120,12 +152,7 @@ make_record <- function(json_parsed){
     }
     
     
-    # return(sapply(dat, is.null) )
-    
-      # return(unlist(dat)) # dat
-    # sprintf("%s (%s). %s, %s, %s, %s, [DOI: %s]", author, year, title, journal, volume, pages, doi)
-    
-    text <- sprintf("[%s] %s %s, %s, %s %s", 
+    text <- sprintf("[%s] %s <i>%s</i>, %s, %s, %s.", 
                     dat$type, 
                     dat$author, 
                     dat$title,
@@ -136,19 +163,7 @@ make_record <- function(json_parsed){
     
     # text %>% print
     return(text)
-    
-    
-    
-    
-    # <ol>
-    #   <li>Fukushima, K., Uchida, N., & Okada, K. (2024). Modeling Partial Knowledge in Multiple-Choice Cognitive Diagnostic Assessment. Journal of Educational and Behavioral Statistics, Online First. [DOI: https://doi.org/10.3102/10769986241245707][Preprint][OSF]</li>
-    #   <li>福島健太郎・内田奈緒・岡田謙介 (2021). Q行列を付与した多枝選択形式テストの開発―認知診断モデルのための英語の空所補充問題の作成―, 日本テスト学会誌, 17(1), 45-59.[DOI: https://doi.org/10.24690/jart.17.1_45][OSF]</li>
-    #   </ol>
   }else if(json_parsed$insert$type == "published_papers"){
-    
-    # json_parsed$merge %>% str
-    # json_parsed$merge$
-    
     
     list_names <- c("lang", "author", "year","title", "journal", "volumepages", "doi")
     dat = vector("list", length(list_names)) %>% 
@@ -177,7 +192,35 @@ make_record <- function(json_parsed){
     dat$journal = json_parsed$merge$publication_name
     dat$volumepages = sprintf("%s(%s), %s-%s", json_parsed$merge$volume, json_parsed$merge$number, json_parsed$merge$starting_page, json_parsed$merge$ending_page)
     # dat$pages = sprintf("%s-%s", json_parsed$merge$starting_page, json_parsed$merge$ending_page)
+    
+    
     dat$doi = json_parsed$merge$identifiers$doi[[1]]
+    if(1){
+      parse_see_also <- function(x){
+        # x$label == "doi"
+        
+        
+        doi <- x$`@id` %>% str_detect("doi")
+        osf <- x$`@id` %>% str_detect("osf")
+        preprint <- x$`@id` %>% str_detect("preprint")
+        
+        if(preprint){
+          text = "preprint"
+        }else if(osf){
+          text = "osf"
+        }else if(doi){
+          # text = "doi"
+          return("")
+        }
+        sprintf("[%s]", html_url(url = x$`@id`, text = text))
+      }
+      urls <- 
+      json_parsed$merge$see_also %>% sapply(parse_see_also)
+      
+      dat$urls <- paste0(urls, collapse="")
+    }
+    
+    
     
     if(is.null(json_parsed$merge$volume)){
       dat$volumepages = "no_volume"
@@ -185,16 +228,16 @@ make_record <- function(json_parsed){
       dat$volumepages = json_parsed$merge$volume
     }
     
-    dat # dat
-    # sprintf("%s (%s). %s, %s, %s, %s, [DOI: %s]", author, year, title, journal, volume, pages, doi)
+    dat 
     
-    text <- sprintf("%s (%s). %s, %s, %s, [DOI: %s]", 
+    text <- sprintf("%s (%s). %s, <i>%s</i>, %s, %s. %s", 
                    dat$author, 
                    dat$year, 
                    dat$title,
                    dat$journal,
                    dat$volumepages,
-                   dat$doi)
+                   html_url(dat$doi, doi =T), 
+                   dat$urls)
     # text %>% print
     return(text)
   }else{
@@ -205,14 +248,17 @@ make_record <- function(json_parsed){
 json_parsed_list <- 
   # readLines("C:/Users/muphy/Downloads/rm_researchers20240909/rm_researchers20240909.jsonl")[14] %>% 
   # readLines("C:/Users/muphy/Downloads/rm_researchers20240909-1/rm_researchers20240909-1.jsonl")[12] %>% 
-  readLines("C:/Users/muphy/Downloads/rm_researchers20240910/rm_researchers20240910.jsonl") %>% 
-  lapply(jsonlite::parse_json)  
+  # readLines("C:/Users/muphy/Downloads/rm_researchers20240910/rm_researchers20240910.jsonl") %>% 
+  # readLines("C:/Users/muphy/Downloads/rm_researchers20240918/rm_researchers20240918.jsonl") %>% 
+  readLines("C:/Users/muphy/Downloads/rm_researchers20240918-1/rm_researchers20240918-1.jsonl") %>% 
+  lapply(jsonlite::parse_json)
+
+
+# text = paste(readLines("C:/Users/muphy/マイドライブ/012myhomepage_github/publication_base.html"), collapse = "/n")
+# text = sprintf(text, make_html(json_parsed_list))
+# 
+# write(text, "C:/Users/muphy/マイドライブ/012myhomepage_github/publication.html")
 
 
 
-
-text = paste(readLines("C:/Users/muphy/マイドライブ/012myhomepage_github/publication_base.html"), collapse = "\n")
-text = sprintf(text, make_html(json_parsed_list))
-
-write(text, "C:/Users/muphy/マイドライブ/012myhomepage_github/publication.html")
-
+write(make_html(json_parsed_list), "C:/Users/muphy/マイドライブ/012myhomepage_github/新しい頁/new/R/contents/publications_content.html")
