@@ -102,38 +102,38 @@ writeLines(index_content, "contents/index_content_news_plus_written.html", useBy
 pages <- list(
   list(
     filename = "index.html",
-    title = "心理統計学者のホームページ - ホーム",
+    title = "福島健太郎のホームページ - ホーム",
     # content_file = "contents/index_content.html",
     content_file = "contents/index_content_news_plus_written.html",
     active_menu = "home"
   ),
   list(
     filename = "about.html",
-    title = "心理統計学者のホームページ - 自己紹介",
+    title = "福島健太郎のホームページ - 自己紹介",
     content_file = "contents/about_content.html",
     active_menu = "about"
   ),
   list(
     filename = "research.html",
-    title = "心理統計学者のホームページ - 研究内容",
+    title = "福島健太郎のホームページ - 研究内容",
     content_file = "contents/research_content.html",
     active_menu = "research"
   ),
   list(
     filename = "publications.html",
-    title = "心理統計学者のホームページ - 業績一覧",
+    title = "福島健太郎のホームページ - 業績一覧",
     content_file = "contents/publications_content.html",
     active_menu = "publications"
   ),
   list(
     filename = "news.html",
-    title = "心理統計学者のホームページ - ニュース",
+    title = "福島健太郎のホームページ - ニュース",
     content_file = "contents/news_content.html",
     active_menu = "news"
   ),
   # list(
   #   filename = "blog.html",
-  #   title = "心理統計学者のホームページ - ブログ",
+  #   title = "福島健太郎のホームページ - ブログ",
   #   content_file = "contents/blog_content.html",
   #   active_menu = "blog"
   # ),
@@ -145,7 +145,7 @@ pages <- list(
   ),
   list(
     filename = "contact.html",
-    title = "心理統計学者のホームページ - お問い合わせ",
+    title = "福島健太郎のホームページ - お問い合わせ",
     content_file = "contents/contact_content.html",
     active_menu = "contact"
   )
