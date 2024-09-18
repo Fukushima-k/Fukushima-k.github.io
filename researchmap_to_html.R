@@ -261,4 +261,4 @@ json_parsed_list <-
 
 
 
-write(make_html(json_parsed_list), "C:/Users/muphy/マイドライブ/012myhomepage_github/新しい頁/new/R/contents/publications_content.html")
+write(make_html(json_parsed_list), "contents/publications_content.html")

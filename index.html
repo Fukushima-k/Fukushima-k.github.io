@@ -1,156 +1,130 @@
+<!-- header.html -->
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kentaro Fukushima</title>
-    <link rel="stylesheet" href="style.css">
+    <title>心理統計学者のホームページ - ホーム</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- BootstrapのCSSを読み込み -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- カスタムCSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-    <header>
-        <h1>Fukushima Kentaro</h1>
-    </header>
-    <nav>
-        <ul>
-            <li><a href="#about">About</a></li>
-            <li><a href="#research">Research</a></li>
-            <li><a href="#publications">Publications</a></li>
-            <!-- <li><a href="publication.html">Publications</a></li> -->
-            <li><a href="#contact">Contact</a></li>
+
+<!-- ヘッダー -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="index.html">Kentaro Fukushima</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="index.html">ホーム</a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="about.html">自己紹介</a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="research.html">研究内容</a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="publications.html">業績一覧</a>
+            </li>
+            <li class="nav-item {{active_news}}">
+                <a class="nav-link" href="news.html">ニュース</a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="contact.html">お問い合わせ</a>
+            </li>
         </ul>
-    </nav>
-    <main>
-        
-        <h1>このページは編集途中です。</h1>
-        このページは編集途中なので、<a href="https://sites.google.com/g.ecc.u-tokyo.ac.jp/k-fukushima-homepage/publication?authuser=0">旧ページ</a>もしくは<a href="https://researchmap.jp/Kentaro_Fukushima">Researchmap</a>をご覧ください。
+    </div>
+</nav>
+
+<!-- コンテンツ開始 -->
+<div class="container my-5">
+<!-- contents/index_content.html -->
+
+<!-- メインビジュアル -->
+<div class="jumbotron text-center">
+    <h1 class="display-4">心理統計学の世界へようこそ</h1>
+    <p class="lead">データの背後にある心理を探求します</p>
+</div>
+
+<!-- 簡易プロフィールセクション -->
+<div class="row">
+    <div class="col-md-4">
+        <img src="your_photo.jpg" class="img-fluid rounded-circle" alt="あなたの写真">
+    </div>
+    <div class="col-md-8">
+        <h2>福島 健太郎 Kentaro Fukushima</h2>
+        <p>心理統計学を専門とする博士課程の大学院生です。データ分析を通じて人間の心理を理解することに情熱を注いでいます。</p>
+        <a href="about.html" class="btn btn-primary">詳しく見る</a>
+    </div>
+</div>
+
+<!-- 研究・業績ハイライト -->
+    <div class="container my-5">
+        <h2>研究・業績ハイライト</h2>
+        <div class="card-deck">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">最新の研究テーマ</h5>
+                    <p class="card-text">回答行動をモデリングした心理・教育測定モデル</p>
+                    <a href="research.html" class="btn btn-secondary">もっと見る</a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">代表的な業績</h5>
+                    <p class="card-text">国際学会での発表や論文掲載など。</p>
+                    <a href="publications.html" class="btn btn-secondary">もっと見る</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2>最新のニュース</h2>
+<ul class="list-group">
+<li class="list-group-item"><h5>新しいホームページを公開します。</h5><small>投稿日: 2024-07</small><p>新しいホームページを公開します。内容は順次更新予定です。<a href="https://fukushima-k.github.io/">https://fukushima-k.github.io/</a></p></li>
+<li class="list-group-item"><h5>共同研究を開始しました。</h5><small>投稿日: 2024-06</small><p>外部機関との共同研究を開始しました。今後、公開予定です。</p></li>
+<li class="list-group-item"><h5>論文が採択されました。</h5><small>投稿日: 2024-05</small><p><i>Journal of Educational and Behavioral Statistics</i>誌に採択された論文がOnlineFirstで公開されました。<a href="https://doi.org/10.3102/10769986241245707">https://doi.org/10.3102/10769986241245707</a></p></li>
+</ul>
+<a href="news.html" class="btn btn-secondary mt-3">すべてのニュースを見る</a>
+
+    <!-- お問い合わせバナー -->
+    <div class="container my-5 text-center">
+        <h2>お問い合わせ</h2>
+        <p>研究やコラボレーションに関するご質問・ご相談はお気軽にどうぞ。</p>
+        <a href="contact.html" class="btn btn-primary">お問い合わせ</a>
+    </div>
 
 
-        <section id="about">
-            <h2>About Me</h2>
-            心理統計・教育測定を専門に研究しています。
 
-            特に「回答行動を考慮した心理測定」に興味を持っています。
-            
-            
-            現在の主なテーマ
-            
-            ・多枝選択型認知診断モデルの一般化
-            
-            ・マッチング項目のための項目反応理論 (IRT) 
-            
-            
-            そのほか関心のある領域
-            
-            ・ベイズ統計学・ベイズモデリング
-            
-            ・テスト理論
-            
-            ・感情・表情認知
-            
-            ・動機づけ
-            
-            
-            その他、心理学や教育に関する方法論全般に興味があります！
+<!-- 他のセクションを追加 -->
+<!-- footer.html -->
+</div> <!-- コンテンツ終了 -->
 
-            <h3>来歴</h3>
-            <ul>
-                <li>2016年4月　早稲田大学 教育学部 教育心理学専修　入学</li>
-                <li>2020年3月　早稲田大学 教育学部 教育心理学専修　卒業（指導教員：上淵寿 <a href = "https://sem-uebuchi.w.waseda.jp/">homepage</a>）</li>
-                <li>2020年4月　東京大学 教育学研究科 総合教育科学専攻 教育心理学コース 　修士課程　入学</li>
-                <li>2022年3月　東京大学 教育学研究科 総合教育科学専攻 教育心理学コース 　修士課程　修了（指導教員：岡田謙介 <a href = "https://sites.google.com/g.ecc.u-tokyo.ac.jp/ken/home?authuser=0">homepage</a>）</li>
-                <li>2022年4月　東京大学 教育学研究科 総合教育科学専攻 教育心理学コース 　博士課程　入学</li>
-                <li>2022年4月　学術振興会 特別研究員 (DC1) ～　</li>
-                <!-- 他の経歴を追加 -->
-            </ul>
-            <h3>受賞</h3>
-            <ul>
-                <li>2020年11月　日本計算機統計学会第34回シンポジウム　学生研究発表賞 受賞</li>
-                <li>2023年11月　日本計算機統計学会第37回シンポジウム　学生研究発表賞 受賞</li>
-                <!-- 他の経歴を追加 -->
-            </ul>
-            <h3>指導歴</h3>
-            <ul>
-                <li>2020年-2022年 東京大学　教育心理学実験演習Ⅱ　インストラクター　（質問紙調査法および統計解析）</li>
-                <!-- 他の経歴を追加 -->
-            </ul>
-            <h3>資格</h3>
-            <ul>
-                <li>中学校教諭一種免許状（中学社会）　取得</li>
-                <li>高等学校教諭一種免許状（地理歴史）　取得</li>
-                <li>高等学校教諭一種免許状（公民）　取得</li>
-                <!-- 他の経歴を追加 -->
-            </ul>
-            <h3>趣味</h3>
-            <ul>
-                <li>ボードゲーム</li>
-                <li>合唱</li>
-                <li>アニメ</li>
-                <li>ゲーム</li>
-                <li>謎解き</li>
-                <!-- 他の経歴を追加 -->
-            </ul>
-        </section>
-<!--         <section id="research">
-            <h2>Research</h2>
-            <p>ここに研究概要を記載します。例えば、研究分野、現在の研究テーマ、主要な研究成果など。</p>
-        </section> -->
-        <section id="publications">
-            <h2>Publications</h2>
-査読論文
-<ol>
-    <li>Fukushima, K., Uchida, N., & Okada, K. (2024). Modeling Partial Knowledge in Multiple-Choice Cognitive Diagnostic Assessment. Journal of Educational and Behavioral Statistics, Online First. [DOI: <a href = "https://doi.org/10.3102/10769986241245707">https://doi.org/10.3102/10769986241245707</a>][<a href = "https://doi.org/10.31234/osf.io/wefb7">preprint</a>][<a href = "https://osf.io/hx7tk/">OSF</a>]</li>
-    <li>福島健太郎・内田奈緒・岡田謙介 (2021). Q行列を付与した多枝選択形式テストの開発―認知診断モデルのための英語の空所補充問題の作成―, 日本テスト学会誌, 17(1), 45-59.[DOI: <a href = "https://doi.org/10.24690/jart.17.1_45">https://doi.org/10.24690/jart.17.1_45</a>][<a href = "https://osf.io/7ym6s/">OSF</a>]</li>
-</ol>
+<!-- フッター -->
+<footer class="bg-light text-center py-4">
+    <div class="container">
+        <p>© 2024 Kentaro Fukushima</p>
+        <a href="index.html">日本語</a> | <a href="index_en.html">English</a>
+        <div class="mt-2">
+            <!-- ソーシャルメディアアイコン -->
+            <a href="https://orcid.org/0000-0002-7439-9312" class="mx-2">ORCID</a>
+            <a href="https://osf.io/gxdsm/" class="mx-2">Open Science Framework</a>
+            <a href="https://researchmap.jp/Kentaro_Fukushima" class="mx-2">ResearchMap</a>
+        </div>
+    </div>
+</footer>
 
-<!-- <ol> -->
-    <!-- <li>Fukushima, K., Uchida, N., & Okada, K. (2023). Modeling Partial Knowledge in Multiple-Choice Cognitive Diagnostic Assessment. [DOI: https://doi.org/10.31234/osf.io/wefb7 ]</li> -->
-<!-- </ol> -->
+<!-- Bootstrapと依存関係のJavaScriptを読み込み -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"
+></script>
 
-
-<!-- preprint -->
-<!-- <a href="https://twitter.com/intent/tweet?button_hashtag=FukushimaPsy111&ref_src=twsrc%5Etfw" class="twitter-hashtag-button" data-show-count="false">Tweet #FukushimaPsy111</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> -->
-
-
-国際学会における発表 (査読あり)
-<ol>
-    <li>Fukushima, K., Uchida, N., & Okada, K. Modeling partial knowledge in multiple-choice cognitive diagnostic models. International Meeting of Psychometric Society (IMPS), 2021, Online, 7月, 2021年 [Oral]</li>
-    <li>Fukushima, K. & Okada, K. Multiple-choice log-linear cognitive diagnostic model framework and its application. Computational and  Methodological Statistics (CMStatistics), 2022, London, 12月, 2022年 [Oral]</li>
-    <li>Fukushima, K. & Okada, K. A novel framework of diagnostic classification model for multiple-choice items and a simulation study. International Meeting of Psychometric Society (IMPS), 2023, Maryland, 7月, 2023年 [Oral]</li>
-    <li>Okada, K. & Fukushima, K., Partial-knowledge models for cognitive diagnosis: Formulations, consistency, and relation to other models Australasian Mathematical Psychology Conference (AMPC) 2024年 [Oral]</li>
-    <li>Fukushima, K., Higashiguchi, R., & Okada, K. Refinement of the Matching Item Response Model: A Shift to Generative Modeling. International Meeting of Psychometric Society (IMPS), 2024, Prague, 7月, 2024年 [Oral]</li>
-</ol>
-
-招待セッショントーク（Invited Session Talk）
-<ol>
-    <li> Fukushima, K. & Okada, K. A generalized class of cognitive diagnostic models for multiple-choice items derived from the log-linear model. The 11th Conference of the Asian Regional Section of the International Association for Statistical Computing (IASC-ARS), 2022, Online, 2月, 2022年 [Oral]</li>
-</ol>
-
-国内学会・シンポジウム等における発表 
-<ol>
-    <li>[口頭]福島健太郎・岡田謙介. 消去法を反映した多枝選択型認知診断モデル, 日本行動計量学会　第48回大会特別セッション(対面開催中止に伴い，抄録での掲示のみ), C4-4, 9月, 2020年.</li>
-    <li>[口頭]福島健太郎. 多枝選択CDMにおける消去方略のモデリング, 日本計算機統計学会若手セミナー2020, 発表6, オンライン開催, 9月, 2020年.</li>
-    <li>[口頭]福島健太郎・岡田謙介. 消去法を考慮した多枝選択型認知診断モデルによる実証分析（学生研究発表賞）,日本計算機統計学会 第34回シンポジウム, 学生研究発表セッション2-3, オンライン開催, 11月, 2020年.</li>
-    <li>[ポスター]福島健太郎・上淵寿. ガウスフィルタと共感性が表情認知の正確性に及ぼす影響, 日本心理学会 第84回大会, PI-037, オンライン開催(東洋大学), 9月, 2020年.</li>
-    <li>[ポスター]上淵寿・福島健太郎. アタッチメントの潜在不安的側面とネガティブ感情喚起が潜在的情動制御に及ぼす影響, 日本心理学会 第84回大会, PM-005, オンライン開催(東洋大学), 9月, 2020年.</li>
-    <li>[口頭]福島健太郎・岡田謙介.  一般化多枝選択型認知診断モデルの提案 (学生研究発表賞) ,日本計算機統計学会 第37回シンポジウム,  宮崎, 11月, 2023年.</li>
-</ol>
-
-<ul>
-<!--                 <li><strong>論文タイトル 1</strong>, 著者名, 発表年, 雑誌名</li>
-                <li><strong>論文タイトル 2</strong>, 著者名, 発表年, 雑誌名</li>
-                <!-- 他の出版物を追加 --> -->
-            </ul>
-        </section>
-        <section id="contact">
-            <h2>Contact</h2>
-            <p>mail: fukushima][p.u-tokyo.ac.jp (][を@に置き換える)</p>
-            <p>東京大学 教育学研究科 教育心理学コース 岡田謙介研究室</p>
-            <p>学術振興会特別研究員DC1</p>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2024 Kentaro Fukushima</p>
-    </footer>
-    <script src="script.js"></script>
 </body>
 </html>

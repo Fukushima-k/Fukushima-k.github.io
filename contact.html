@@ -1,0 +1,81 @@
+<!-- header.html -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>心理統計学者のホームページ - お問い合わせ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- BootstrapのCSSを読み込み -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- カスタムCSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<!-- ヘッダー -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="index.html">Kentaro Fukushima</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item ">
+                <a class="nav-link" href="index.html">ホーム</a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="about.html">自己紹介</a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="research.html">研究内容</a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="publications.html">業績一覧</a>
+            </li>
+            <li class="nav-item {{active_news}}">
+                <a class="nav-link" href="news.html">ニュース</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="contact.html">お問い合わせ</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<!-- コンテンツ開始 -->
+<div class="container my-5">
+
+<!-- 連絡先情報 -->
+<h3>連絡先</h3>
+<p>
+  研究やコラボレーションに関するご質問・ご相談はお気軽にどうぞ。<br>
+  <strong>Email:</strong> fukushima[at]p.u-tokyo.ac.jp<br>
+  <strong>ORCID:</strong> <a href="https://orcid.org/0000-0002-7439-9312" class="mx-2">https://orcid.org/0000-0002-7439-9312</a><br>
+  <strong>Open Science Framework:</strong><a href="https://osf.io/gxdsm/" class="mx-2">https://osf.io/gxdsm/</a><br>
+  <strong>Researchmap:</strong><a href="https://researchmap.jp/Kentaro_Fukushima" class="mx-2">https://researchmap.jp/Kentaro_Fukushima</a>
+</p>
+<!-- footer.html -->
+</div> <!-- コンテンツ終了 -->
+
+<!-- フッター -->
+<footer class="bg-light text-center py-4">
+    <div class="container">
+        <p>© 2024 Kentaro Fukushima</p>
+        <a href="index.html">日本語</a> | <a href="index_en.html">English</a>
+        <div class="mt-2">
+            <!-- ソーシャルメディアアイコン -->
+            <a href="https://orcid.org/0000-0002-7439-9312" class="mx-2">ORCID</a>
+            <a href="https://osf.io/gxdsm/" class="mx-2">Open Science Framework</a>
+            <a href="https://researchmap.jp/Kentaro_Fukushima" class="mx-2">ResearchMap</a>
+        </div>
+    </div>
+</footer>
+
+<!-- Bootstrapと依存関係のJavaScriptを読み込み -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"
+></script>
+
+</body>
+</html>
