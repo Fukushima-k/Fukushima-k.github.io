@@ -96,8 +96,6 @@ index_content <- readLines("contents/index_content_news_plus.html", encoding = "
 index_content <- str_replace(index_content, fixed("{{news_section}}"), paste(index_news_content, collapse = "\n"))
 writeLines(index_content, "contents/index_content_news_plus_written.html", useBytes = TRUE)
 
-
-
 # ページ情報のリストを作成
 pages <- list(
   list(
@@ -157,7 +155,7 @@ for (page in pages) {
   header <- str_replace_all(header_template, fixed("{{title}}"), page$title)
   
   # アクティブなメニューを設定
-  menu_items <- c("home", "about", "research", "publications", "blog", "contact")
+  menu_items <- c("home", "about", "research", "publications", "news", "contact")
   for (item in menu_items) {
     if (item == page$active_menu) {
       header <- str_replace_all(header, fixed(paste0("{{active_", item, "}}")), "active")
