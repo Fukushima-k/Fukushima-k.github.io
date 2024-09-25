@@ -22,9 +22,9 @@ html_url <- function(url, text, doi = FALSE){
 # ニュースデータ
 news_data <- list(
   list(
-    title = "新しいホームページを公開します。",
+    title = "新しいホームページを公開しました。",
     date = "2024-07",
-    content = paste0("新しいホームページを公開します。内容は順次更新予定です。", html_url("https://fukushima-k.github.io/"))
+    content = paste0("新しいホームページを公開しました。それに伴い、旧ホームぺージは公開を停止しました。")
   ),
   list(
     title = "共同研究を開始しました。",
