@@ -1,0 +1,42 @@
+name: Build Homepage
+
+on:
+  push:
+    paths:
+      - 'inputjson/**'
+      - 'contents/**'
+      - 'templete/**'
+      - 'data/**'
+      - 'js/**'
+      - '.github/workflows/build-homepage.yml'
+  workflow_dispatch: # 手動実行も可能
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+          
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          
+      - name: Install Node.js dependencies
+        run: npm install
+        
+      - name: Build all pages (JavaScript only)
+        run: npm run build:all
+        
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add *.html contents/*.html contents/*.tex
+          git diff --staged --quiet || (git commit -m "Auto-build homepage [skip ci]" && git push)
+

@@ -1,0 +1,58 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+# package-lock.json は通常コミットしますが、除外したい場合はコメントを外してください
+# package-lock.json
+
+# 開発用・テスト用ファイル
+test_researchmap.html
+*.test.js
+*.spec.js
+
+# エディタ・IDE設定ファイル
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ワークスペース設定（個人用）
+*.code-workspace
+
+# 一時ファイル
+*.tmp
+*.log
+*.bak
+*.backup
+
+# 古いバックアップファイル
+json/templete*.jsonl
+json/* copy.*
+
+# 古いRスクリプト（削除済み）
+# generate_html.R
+# researchmap_to_html.R
+# Test.R
+
+# 自動生成される中間ファイル（GitHub Actionsで生成される）
+# 注意: GitHub Pagesで公開するため、生成されたHTMLファイルはコミットする必要があります
+# ただし、ローカルでの開発時は無視できます
+# contents/index_content_news_plus_written.html
+# contents/news_content.html
+# contents/publications_content.html
+
+# 環境変数・シークレット
+.env
+.env.local
+*.key
+*.pem
+
+# ビルド成果物（GitHub Actionsで生成されるため、通常はコミット不要）
+# ただし、GitHub Pagesで公開する場合は必要
+# dist/
+# build/
+

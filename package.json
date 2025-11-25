@@ -1,0 +1,26 @@
+{
+  "name": "researchmap-processor",
+  "version": "1.0.0",
+  "description": "ResearchMapから論文データを取得して処理するJavaScriptツール",
+  "main": "js/researchmap-main.js",
+  "type": "module",
+  "scripts": {
+    "process": "node js/researchmap-main.js",
+    "process:local": "node js/researchmap-main.js --inputFile inputjson/rm_researchers20250916.jsonl --outputFile contents/publications_content.html",
+    "process:researchmap": "node js/researchmap-main.js --useResearchMap true --researcherId Kentaro_Fukushima --outputFile contents/publications_content.html",
+    "build:publications": "node js/build-publications.js inputjson/rm_researchers20250916.jsonl publications.html",
+    "build:all": "node js/build-all.js",
+    "server": "python -m http.server 8000",
+    "server:node": "npx http-server -p 8000"
+  },
+  "keywords": [
+    "researchmap",
+    "publications",
+    "academic"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "ejs": "^3.1.10"
+  }
+}

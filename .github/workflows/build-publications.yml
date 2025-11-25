@@ -1,0 +1,61 @@
+name: Build Homepage
+
+on:
+  push:
+    paths:
+      - 'inputjson/**'
+      - 'contents/**'
+      - 'templete/**'
+      - 'generate_html.R'
+      - 'researchmap_to_html.R'
+      - 'js/**'
+      - '.github/workflows/build-publications.yml'
+  workflow_dispatch: # 手動実行も可能
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+          
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: '4.3'
+          
+      - name: Install R dependencies
+        run: |
+          Rscript -e "if (!require('stringr')) install.packages('stringr', repos='https://cran.rstudio.com/')"
+          Rscript -e "if (!require('jsonlite')) install.packages('jsonlite', repos='https://cran.rstudio.com/')"
+          Rscript -e "if (!require('magrittr')) install.packages('magrittr', repos='https://cran.rstudio.com/')"
+          Rscript -e "if (!require('tidyverse')) install.packages('tidyverse', repos='https://cran.rstudio.com/')"
+          
+      - name: Install Node.js dependencies
+        run: npm install
+        
+      - name: Build publications.html (JavaScript)
+        run: npm run build:publications
+        
+      - name: Build publications_content.html (R)
+        run: Rscript researchmap_to_html.R
+        
+      - name: Build all HTML pages
+        run: Rscript generate_html.R
+        
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add *.html contents/*.html contents/*.tex
+          git diff --staged --quiet || (git commit -m "Auto-build homepage [skip ci]" && git push)
+
