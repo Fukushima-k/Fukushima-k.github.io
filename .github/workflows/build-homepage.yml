@@ -5,7 +5,7 @@ on:
     paths:
       - 'inputjson/**'
       - 'contents/**'
-      - 'templete/**'
+      - 'templates/**'
       - 'data/**'
       - 'js/**'
       - '.github/workflows/build-homepage.yml'
@@ -14,11 +14,12 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0
           
       - name: Setup Node.js
@@ -38,5 +39,10 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add *.html contents/*.html contents/*.tex
-          git diff --staged --quiet || (git commit -m "Auto-build homepage [skip ci]" && git push)
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Auto-build homepage [skip ci]"
+            git push
+          fi
 
