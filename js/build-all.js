@@ -17,21 +17,37 @@ const __dirname = dirname(__filename);
 
 /**
  * 最新のJSONLファイルを取得
+ * ファイル名に含まれる日付（YYYYMMDD形式）で最新のものを選択
  */
 function getLatestJSONLFile() {
   const inputDir = path.resolve(__dirname, '..', 'inputjson');
   const files = fs.readdirSync(inputDir)
     .filter(file => file.match(/^rm_researchers.*\.jsonl$/))
-    .map(file => ({
-      name: file,
-      path: path.join(inputDir, file),
-      time: fs.statSync(path.join(inputDir, file)).mtime
-    }))
-    .sort((a, b) => b.time - a.time);
+    .map(file => {
+      // ファイル名から日付を抽出（例: rm_researchers20251125.jsonl -> 20251125）
+      const dateMatch = file.match(/rm_researchers(\d{8})/);
+      let dateValue = 0;
+      if (dateMatch) {
+        dateValue = parseInt(dateMatch[1], 10);
+      } else {
+        // 日付が見つからない場合は、ファイルの更新時刻を使用
+        dateValue = fs.statSync(path.join(inputDir, file)).mtime.getTime();
+      }
+      
+      return {
+        name: file,
+        path: path.join(inputDir, file),
+        dateValue: dateValue
+      };
+    })
+    .sort((a, b) => b.dateValue - a.dateValue); // 日付が新しい順にソート
   
   if (files.length === 0) {
     throw new Error('JSONLファイルが見つかりません: inputjson/');
   }
+  
+  console.log(`利用可能なJSONLファイル: ${files.map(f => f.name).join(', ')}`);
+  console.log(`選択されたファイル: ${files[0].name} (日付値: ${files[0].dateValue})`);
   
   return files[0].path;
 }
