@@ -11,6 +11,11 @@ on:
       - '.github/workflows/build-homepage.yml'
   workflow_dispatch: # 手動実行も可能
 
+# 同じブランチでの同時実行を制御（最新のものだけ実行）
+concurrency:
+  group: build-homepage-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -42,7 +47,7 @@ jobs:
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "Auto-build homepage [skip ci]"
+            git commit -m "Auto-build homepage [skip ci] [skip pages]"
             git push
           fi
 
