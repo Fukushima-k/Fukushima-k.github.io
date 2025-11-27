@@ -34,30 +34,94 @@ function displayPageLastUpdated() {
 
 // 業績の最終更新日を表示（publications.html専用）
 function displayPublicationsLastUpdated() {
-    // contents/publications_content.htmlの最終更新日を取得
-    // HEADリクエストを使用してファイルのメタデータのみを取得
-    fetch('contents/publications_content.html', { method: 'HEAD' })
-        .then(response => {
-            if (response.ok) {
-                // Last-Modifiedヘッダーから日付を取得
-                const lastModifiedHeader = response.headers.get('Last-Modified');
-                if (lastModifiedHeader) {
-                    const lastModified = new Date(lastModifiedHeader);
-                    const formattedDate = formatDate(lastModified);
-                    insertPublicationsDate(formattedDate);
-                } else {
-                    // Last-Modifiedヘッダーが取得できない場合は、ページの最終更新日を使用
-                    fallbackToPageDate();
-                }
+    // inputjson/ディレクトリ内の最新のJSONLファイルの最終更新日を取得
+    // ファイル名のパターン: rm_researchersYYYYMMDD.jsonl
+    getLatestJSONLFileDate()
+        .then(formattedDate => {
+            if (formattedDate) {
+                insertPublicationsDate(formattedDate);
             } else {
                 fallbackToPageDate();
             }
         })
         .catch(error => {
-            console.log('業績ファイルの最終更新日を取得できませんでした:', error);
-            // エラーが発生した場合は、ページの最終更新日を使用
+            console.log('業績JSONLファイルの最終更新日を取得できませんでした:', error);
             fallbackToPageDate();
         });
+}
+
+// 最新のJSONLファイルの最終更新日を取得
+async function getLatestJSONLFileDate() {
+    // ビルド時に埋め込まれたメタデータを確認
+    const metaElement = document.querySelector('meta[name="publications-jsonl-date"]');
+    if (metaElement) {
+        const dateStr = metaElement.getAttribute('content');
+        if (dateStr) {
+            const date = new Date(dateStr);
+            if (!isNaN(date.getTime())) {
+                return formatDate(date);
+            }
+        }
+    }
+    
+    // メタデータが存在しない場合は、inputjson/ディレクトリ内のJSONLファイルを直接確認
+    // ファイル名のパターン: rm_researchersYYYYMMDD.jsonl
+    // 最新のファイルを特定するために、過去2年分の日付パターンを試す
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth() + 1;
+    
+    // 試すファイル名のリスト（最新から順に）
+    const candidates = [];
+    
+    // 現在から過去24ヶ月分のファイル名を生成（各月の1日、15日、月末を試す）
+    for (let i = 0; i < 24; i++) {
+        const date = new Date(currentYear, currentMonth - 1 - i, 1);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        
+        // 1日、15日、月末を試す
+        const days = [1, 15];
+        // 月末を計算
+        const lastDay = new Date(year, date.getMonth() + 1, 0).getDate();
+        days.push(lastDay);
+        
+        for (const day of days) {
+            const dayStr = String(day).padStart(2, '0');
+            const dateStr = `${year}${month}${dayStr}`;
+            candidates.push(`inputjson/rm_researchers${dateStr}.jsonl`);
+        }
+    }
+    
+    // 各候補ファイルの最終更新日を確認
+    let latestDate = null;
+    let latestFilePath = null;
+    
+    for (const filePath of candidates) {
+        try {
+            const response = await fetch(filePath, { method: 'HEAD' });
+            if (response.ok) {
+                const lastModifiedHeader = response.headers.get('Last-Modified');
+                if (lastModifiedHeader) {
+                    const lastModified = new Date(lastModifiedHeader);
+                    if (!latestDate || lastModified > latestDate) {
+                        latestDate = lastModified;
+                        latestFilePath = filePath;
+                    }
+                }
+            }
+        } catch (error) {
+            // ファイルが存在しない場合は次の候補を試す
+            continue;
+        }
+    }
+    
+    if (latestDate) {
+        return formatDate(latestDate);
+    }
+    
+    // どのファイルも取得できない場合は、nullを返す
+    return null;
 }
 
 // 業績の最終更新日を挿入するヘルパー関数

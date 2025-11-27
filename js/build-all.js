@@ -116,6 +116,10 @@ async function build() {
     
     const templateBuilder = new TemplateBuilder();
     
+    // JSONLファイルの最終更新日を取得（業績ページ用）
+    const jsonlFileInfo = fs.statSync(jsonlFile);
+    const jsonlLastModified = jsonlFileInfo.mtime.toISOString();
+    
     const pages = [
       {
         filename: 'index.html',
@@ -139,7 +143,10 @@ async function build() {
         filename: 'publications.html',
         title: '福島健太郎のホームページ - 業績一覧',
         contentFile: 'contents/publications_content.html',
-        activeMenu: 'publications'
+        activeMenu: 'publications',
+        data: {
+          publicationsJsonlDate: jsonlLastModified
+        }
       },
       {
         filename: 'news.html',
